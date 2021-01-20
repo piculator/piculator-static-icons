@@ -1,6 +1,6 @@
 from PIL import Image
 from os import path
-
+import os
 
 def process(image, width, height, save_path):
     output = image.resize((width, height))
@@ -16,6 +16,7 @@ def batch_process_banner(image, save_folder, name):
     pass
 
 if __name__ == "__main__":
+    os.makedirs('Generated',exist_ok=True)
     ico = Image.open('piculator-icon.png')
     batch_process_square_image(ico,'Generated','piculator-icon')
     banner_colorful = Image.open('piculator-banner-colorful.png')
@@ -24,3 +25,9 @@ if __name__ == "__main__":
     batch_process_banner(banner_white,'Generated','piculator-banner-white')
     banner_black = Image.open('piculator-banner-black.png')
     batch_process_banner(banner_black,'Generated','piculator-banner-black')
+
+    ico128 = Image.open(path.join('Generated','piculator-icon@128.png'))
+    ico128.save('favicon.ico')
+    opath = '../../Output/piculator'
+    os.makedirs(opath,exist_ok=True)
+    os.system('cp -r Generated/** ../../Output/piculator')
